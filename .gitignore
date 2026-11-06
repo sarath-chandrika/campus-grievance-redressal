@@ -28,5 +28,6 @@ yarn-error.log*
 *.log
 
 # Editor directories
-.vscode/
+.vscode/*
+!.vscode/launch.json
 .idea/

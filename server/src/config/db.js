@@ -1,18 +1,15 @@
 const mongoose = require('mongoose');
 
 const connectDB = async () => {
-  try {
-    const conn = await mongoose.connect(process.env.MONGO_URI || 'mongodb://127.0.0.1:27017/grievance_db');
-    console.log(`MongoDB Connected: ${conn.connection.host}`);
-    return conn;
-  } catch (error) {
-    console.error(`MongoDB Connection Error: ${error.message}`);
-    console.warn('Note: Ensure MongoDB is running locally or set MONGO_URI in server/.env');
-    // Don't exit immediately in development so server can start and display informative logs
-    if (process.env.NODE_ENV === 'production') {
-      process.exit(1);
-    }
+  const mongoUri = process.env.MONGO_URI || 'mongodb://127.0.0.1:27017/grievance_db';
+
+  if (/<[^>]+>/.test(mongoUri)) {
+    throw new Error('MONGO_URI still contains placeholders. Replace them with your MongoDB Atlas connection details.');
   }
+
+  const conn = await mongoose.connect(mongoUri);
+  console.log(`MongoDB Connected: ${conn.connection.host}`);
+  return conn;
 };
 
 module.exports = connectDB;

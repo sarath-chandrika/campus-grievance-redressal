@@ -1,8 +1,9 @@
 const mongoose = require('mongoose');
 const dotenv = require('dotenv');
 const bcrypt = require('bcryptjs');
+const path = require('path');
 
-dotenv.config();
+dotenv.config({ path: path.join(__dirname, '.env') });
 
 const User = require('./src/models/User');
 const Department = require('./src/models/Department');
@@ -12,7 +13,7 @@ const { classifyPriority, computeSlaDeadline } = require('./src/utils/priorityCl
 const seedDatabase = async () => {
   try {
     const mongoUri = process.env.MONGO_URI || 'mongodb://127.0.0.1:27017/grievance_db';
-    console.log(`Connecting to MongoDB at: ${mongoUri}...`);
+    console.log('Connecting to MongoDB...');
     await mongoose.connect(mongoUri);
     console.log('Connected to MongoDB.');
 

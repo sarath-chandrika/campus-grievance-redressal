@@ -126,16 +126,19 @@ A full-stack **MERN** (MongoDB, Express.js, React, Node.js) web application engi
 ```bash
 cd server
 npm install
-
-# Copy environment variables
-cp .env.example .env
 ```
 
-Ensure `.env` contains:
+Create `server/.env` from `server/.env.example` (in PowerShell, run `Copy-Item .env.example .env`). For MongoDB Atlas, replace the `MONGO_URI` placeholders with the connection string from Atlas, use your database user's password URL-encoded, and keep the database name `grievance_db`. Never commit or share the completed URI. In Atlas, add your current IP under **Network Access** and confirm the database user under **Database Access**.
+
+For a local MongoDB server instead, set `MONGO_URI` to:
+```env
+MONGO_URI=mongodb://127.0.0.1:27017/grievance_db
+```
+
+The remaining required `.env` settings are:
 ```env
 PORT=5000
 NODE_ENV=development
-MONGO_URI=mongodb://127.0.0.1:27017/grievance_db
 JWT_SECRET=super_secret_jwt_key_smart_grievance_2026
 JWT_EXPIRE=7d
 CLIENT_URL=http://localhost:5173
@@ -156,9 +159,9 @@ npm run seed
 
 #### Start Backend Server
 ```bash
-npm start
-# Server boots on http://localhost:5000 with Socket.io and hourly SLA Cron active
+npm run dev
 ```
+You can run `npm run dev` in the VS Code terminal from either the repository root (`npm --prefix server run dev`) or the `server` folder. The backend loads `server/.env` and only starts listening after MongoDB connects; connection errors are printed in the terminal.
 
 ---
 
